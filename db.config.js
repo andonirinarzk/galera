@@ -23,7 +23,17 @@ db.Eleve = require('./models/m_eleve')(sequelize);
 
 /** DB: Mise en place des relation */
 db.Formation.hasMany(db.Eleve, { foreignKey: 'id_formation' });
+db.Formation.hasMany(db.Module, { foreignKey: 'id_formation' });
 db.Eleve.belongsTo(db.Formation, { foreignKey: 'id_formation' });
+db.Eleve.hasMany(db.Notation, { foreignKey: 'id_eleve' });
+db.Formateur.hasMany(db.Notation, { foreignKey: 'id_formateur' });
+db.Formateur.hasMany(db.Module, { foreignKey: 'id_formateur' });
+db.Notation.belongsTo(db.Eleve, { foreignKey: 'id_eleve' });
+db.Notation.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
+db.Notation.belongsTo(db.Module, { foreignKey: 'id_module' });
+db.Module.hasMany(db.Notation, { foreignKey: 'id_module' });
+db.Module.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
+db.Module.belongsTo(db.Formation, { foreignKey: 'id_formation' });
 
 /** Syncronisation des modèles avec la base de donnée */
 db.sequelize.sync({ alter: true })

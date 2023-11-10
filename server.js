@@ -21,11 +21,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /** Routers */
-const formation_router = require('./routers/r_formation')
+const formation_router = require('./routers/r_formation');
+const eleve_router = require('./routers/r_eleve');
+const formateur_router = require('./routers/r_formateur');
+const notation_router = require('./routers/r_notation');
+const module_router = require('./routers/r_module');
 
 /** Routage principal */
 app.get('/', (req, res) => res.send(`Nous sommes en ligne, bien joué!!`))
 app.use('/formations', formation_router)
+app.use('/formateurs', formateur_router)
+app.use('/modules', module_router)
+app.use('/notations', notation_router)
+app.use('/eleves', eleve_router)
 app.all('*', (req, res) => res.status(501).send('Cette fonction n\'est pas autorisée'))
 
 /** Démarrage de l'API */
