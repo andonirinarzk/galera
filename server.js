@@ -21,6 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /** Routers */
+const formation_router = require('./routers/r_formation')
+
+/** Routage principal */
+app.get('/', (req, res) => res.send(`Nous sommes en ligne, bien joué!!`))
+app.use('/formations', formation_router)
+app.all('*', (req, res) => res.status(404).send('Mauvaise page'))
 
 /** Démarrage de l'API */
 
