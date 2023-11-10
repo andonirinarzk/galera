@@ -17,6 +17,8 @@ router.use((req, res, next) => {
 router.get('', ctrlEleve.getAllEleves);
 router.get('/:id', ctrlEleve.getEleve);
 router.put('', ctrlEleve.addEleve);
+router.post('', ctrlEleve.signup);
+router.post('', ctrlEleve.login);
 
 
 module.exports = router;

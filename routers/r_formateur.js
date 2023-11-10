@@ -17,6 +17,7 @@ router.use((req, res, next) => {
 router.get('', ctrlFormateur.getAllFormateurs);
 router.get('/:id', ctrlFormateur.getFormateur);
 router.put('', ctrlFormateur.addFormateur);
-
+router.post('', ctrlFormateur.signup);
+router.post('', ctrlFormateur.login);
 
 module.exports = router;

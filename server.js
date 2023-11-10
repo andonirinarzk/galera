@@ -36,6 +36,7 @@ app.use('/notations', notation_router)
 app.use('/eleves', eleve_router)
 app.all('*', (req, res) => res.status(501).send('Cette fonction n\'est pas autorisée'))
 
+
 /** Démarrage de l'API */
 let server = null;
 const connectMongoDB = async () => {

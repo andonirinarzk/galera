@@ -1,6 +1,7 @@
 /** Import modules */
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
+require('dotenv').config({ encoding: "latin1" });
+
 
 /** Connexion à la base de donnée */
 let sequelize = new Sequelize(

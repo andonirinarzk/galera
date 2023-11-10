@@ -54,7 +54,55 @@ exports.addFormateur = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ message: 'ouch... Database Error', error: err })
     }
+}
 
 
+exports.signup = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
 
+        // Vérifier si l'utilisateur existe déjà dans la base de données des élèves
+        const existingFormateur = await Formateur.findOne({ where: { email } });
+
+        if (existingFormateur) {
+            return res.status(409).json({ message: `L'élève ${email} existe déjà !` });
+        }
+
+        // Créer un nouvel élève dans la base de données des élèves
+        const newFormateur = await Formateur.create({ email, password: await bcrypt.hash(password, parseInt(process.env.BCRYPTSALT)) });
+
+        // Générer un token
+        const token = jwt.sign({ userId: newFormateur.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
+
+        return res.status(200).json({ message: "Élève inscrit avec succès", data: newFormateur, token });
+    } catch (error) {
+        return res.status(500).json({ message: 'ouch... Database Error', error: err })
+    }
+}
+
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        // Vérifier si l'utilisateur existe dans la base de données des élèves
+        const formateur = await Formateur.findOne({ where: { email } });
+
+        if (!formateur) {
+            return res.status(400).json({ error: "Élève non trouvé" });
+        }
+
+        // Vérifier si le mot de passe est correct
+        const validPassword = await bcrypt.compare(password, formateur.password);
+
+        if (!validPassword) {
+            return res.status(400).json({ error: "Mot de passe incorrect" });
+        }
+
+        // Générer un token pour l'authentification
+        const token = jwt.sign({ userId: formateur.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
+
+        res.status(200).json({ userId: formateur.id, token });
+    } catch (error) {
+        res.status(500).json({ error });
+    }
 }
