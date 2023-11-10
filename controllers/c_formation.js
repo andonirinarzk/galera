@@ -1,7 +1,6 @@
 /** import des Modules */
 const DB = require('../db.config');
 const Formation = DB.Formation;
-console.log(Formation)
 /** contenu */
 exports.getAllFormations = (req, res) => {
     Formation.findAll()

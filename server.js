@@ -2,7 +2,7 @@
 const express = require('express'); //permettre accès aux API
 const cors = require('cors'); // définir qui peut accéder à l'API
 const mongoose = require('mongoose')
-const { use } = require('bcrypt/promises');
+
 
 
 /** Connexion à la base de donnée */
@@ -26,10 +26,10 @@ const formation_router = require('./routers/r_formation')
 /** Routage principal */
 app.get('/', (req, res) => res.send(`Nous sommes en ligne, bien joué!!`))
 app.use('/formations', formation_router)
-app.all('*', (req, res) => res.status(404).send('Mauvaise page'))
+app.all('*', (req, res) => res.status(501).send('Cette fonction n\'est pas autorisée'))
 
 /** Démarrage de l'API */
-
+let server = null;
 const connectMongoDB = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URL);
@@ -55,11 +55,11 @@ connectMongoDB();
 connectMariaDB();
 
 // Démarrage du serveur
-app.listen(process.env.API_PORT, () => {
-    console.log("API is running!");
+server = app.listen(process.env.API_PORT, () => {
+    console.log("API: Magnifique, ça fonctionne!!!!");
 });
 
-
+module.exports = server;
 // mongoose
 //     .connect(process.env.MONGODB_URL)
 //     .then(() => {
