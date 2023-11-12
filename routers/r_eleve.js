@@ -18,8 +18,8 @@ router.use((req, res, next) => {
 router.get('', ctrlEleve.getAllEleves);
 router.get('/:id', ctrlEleve.getEleve);
 router.put('', ctrlEleve.addEleve);
-router.post('', GuardPasswordValidator, ctrlEleve.signup);
-router.post('', limiter, ctrlEleve.login);
+router.put('', GuardPasswordValidator, ctrlEleve.signup);
+router.put('', limiter, ctrlEleve.login);
 
 
 module.exports = router;

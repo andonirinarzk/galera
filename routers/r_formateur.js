@@ -15,11 +15,12 @@ router.use((req, res, next) => {
 })
 
 /** routage de formateur */
-router.get('', ctrlFormateur.getAllFormateurs);
+router.get('/', ctrlFormateur.getAllFormateurs);
 router.get('/:id', ctrlFormateur.getFormateur);
-router.put('', ctrlFormateur.addFormateur);
-router.post('', GuardPasswordValidator, ctrlFormateur.signup);
-router.post('', limiter, ctrlFormateur.login);
+router.put('/', ctrlFormateur.addFormateur);
+router.put('/', GuardPasswordValidator, ctrlFormateur.signup);
+router.put('/', limiter, ctrlFormateur.login);
+
 
 
 module.exports = router;
