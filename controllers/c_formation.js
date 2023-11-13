@@ -1,6 +1,7 @@
 /** import des Modules */
 const DB = require('../db.config');
 const Formation = DB.Formation;
+
 /** contenu */
 exports.getAllFormations = (req, res) => {
     Formation.findAll()
@@ -55,6 +56,25 @@ exports.addFormation = async (req, res) => {
         return res.status(500).json({ message: 'ouch... Database Error', error: err })
     }
 
-
-
 }
+
+exports.createFormation = async (req, res, next) => {
+    try {
+        const { title, description } = req.body;
+
+        // Assurez-vous que l'utilisateur est un administrateur
+        if (req.user.role !== 'administrateur') {
+            return res.status(403).json({ message: 'Accès refusé. Seuls les administrateurs peuvent créer des formations.' });
+        }
+
+        // Créez une nouvelle formation
+        const newFormation = await DB.Formation.create({
+            title,
+            description,
+        });
+
+        return res.status(201).json({ message: 'Formation créée avec succès', data: newFormation });
+    } catch (error) {
+        return res.status(500).json({ message: 'Erreur lors de la création de la formation', error: error.message });
+    }
+};

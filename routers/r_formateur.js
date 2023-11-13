@@ -1,8 +1,7 @@
 /** import des Modules */
 const express = require('express');
 const ctrlFormateur = require('../controllers/c_formateur')
-const limiter = require("../middleware/GuardLimiter");
-const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
+const GuardAuth = require('../middleware/GuardAuth')
 
 /** récupère le router d'express */
 let router = express.Router();
@@ -15,11 +14,9 @@ router.use((req, res, next) => {
 })
 
 /** routage de formateur */
-router.get('/', ctrlFormateur.getAllFormateurs);
-router.get('/:id', ctrlFormateur.getFormateur);
-router.put('/', ctrlFormateur.addFormateur);
-router.put('/', GuardPasswordValidator, ctrlFormateur.signup);
-router.put('/', limiter, ctrlFormateur.login);
+router.get('/', GuardAuth, ctrlFormateur.getAllFormateurs);
+router.get('/:id', GuardAuth, ctrlFormateur.getFormateur);
+router.put('/', GuardAuth, ctrlFormateur.addFormateur);
 
 
 

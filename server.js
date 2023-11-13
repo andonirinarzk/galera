@@ -26,9 +26,11 @@ const eleve_router = require('./routers/r_eleve');
 const formateur_router = require('./routers/r_formateur');
 const notation_router = require('./routers/r_notation');
 const module_router = require('./routers/r_module');
+const user_router = require('./routers/r_user');
 
 /** Routage principal */
 app.get('/', (req, res) => res.send(`Nous sommes en ligne, bien joué!!`))
+app.use('/auth', user_router)
 app.use('/formations', formation_router)
 app.use('/formateurs', formateur_router)
 app.use('/modules', module_router)

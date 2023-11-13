@@ -1,6 +1,7 @@
 /** import des Modules */
 const express = require('express');
 const ctrlFormation = require('../controllers/c_formation')
+const GuardAuth = require('../middleware/GuardAuth');
 
 
 /** récupère le router d'express */
@@ -17,6 +18,7 @@ router.use((req, res, next) => {
 router.get('', ctrlFormation.getAllFormations);
 router.get('/:id', ctrlFormation.getFormation);
 router.put('', ctrlFormation.addFormation);
+router.post('/', GuardAuth, ctrlFormation.createFormation);
 
 
 module.exports = router;

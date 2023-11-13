@@ -1,8 +1,8 @@
 /** import des Modules */
 const express = require('express');
 const ctrlEleve = require('../controllers/c_eleve')
-const limiter = require("../middleware/GuardLimiter");
-const GuardPasswordValidator = require("../middleware/GuardPasswordValidator");
+const GuardAuth = require('../middleware/GuardAuth')
+
 
 /** récupère le router d'express */
 let router = express.Router();
@@ -15,11 +15,10 @@ router.use((req, res, next) => {
 })
 
 /** routage de eleve */
-router.get('', ctrlEleve.getAllEleves);
-router.get('/:id', ctrlEleve.getEleve);
-router.put('', ctrlEleve.addEleve);
-router.put('', GuardPasswordValidator, ctrlEleve.signup);
-router.put('', limiter, ctrlEleve.login);
+router.get('', GuardAuth, ctrlEleve.getAllEleves);
+router.get('/:id', GuardAuth, ctrlEleve.getEleve);
+router.put('', GuardAuth, ctrlEleve.addEleve);
+
 
 
 module.exports = router;

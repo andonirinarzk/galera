@@ -1,6 +1,7 @@
 /** import des Modules */
 const express = require('express');
 const ctrlNotation = require('../controllers/c_notation')
+const GuardAuth = require('../middleware/GuardAuth')
 
 
 /** récupère le router d'express */
@@ -14,9 +15,9 @@ router.use((req, res, next) => {
 })
 
 /** routage de notation */
-router.get('', ctrlNotation.getAllNotations);
+router.get('', GuardAuth, ctrlNotation.getAllNotations);
 router.get('/:id', ctrlNotation.getNotation);
-router.put('', ctrlNotation.addNotation);
+router.put('', GuardAuth, ctrlNotation.addNotation);
 
 
 module.exports = router;
