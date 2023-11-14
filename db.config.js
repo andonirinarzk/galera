@@ -30,8 +30,8 @@ db.Formateur.hasMany(db.Notation, { foreignKey: 'id_formateur' });
 db.Formateur.hasMany(db.Module, { foreignKey: 'id_formateur' });
 db.Notation.belongsTo(db.Eleve, { foreignKey: 'id_eleve' });
 db.Notation.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
-db.Notation.belongsTo(db.Module, { foreignKey: 'id_module' });
-db.Module.hasMany(db.Notation, { foreignKey: 'id_module' });
+// db.Notation.belongsTo(db.Module, { foreignKey: 'id_module' });
+// db.Module.hasMany(db.Notation, { foreignKey: 'id_module' });
 db.Module.belongsTo(db.Formateur, { foreignKey: 'id_formateur' });
 db.Module.belongsTo(db.Formation, { foreignKey: 'id_formation' });
 

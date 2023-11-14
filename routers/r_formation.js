@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 /** routage de formation */
 router.get('/', ctrlFormation.getAllFormations);
 router.get('/:id', ctrlFormation.getFormation);
-router.put('/', ctrlFormation.addFormation);
+router.put('/', GuardAuth(['administrateur']), ctrlFormation.addFormation);
 
 
 module.exports = router;

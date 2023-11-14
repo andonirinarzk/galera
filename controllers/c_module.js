@@ -34,16 +34,16 @@ exports.getModule = async (req, res) => {
 }
 
 exports.addModule = async (req, res) => {
-    const { nom } = req.body;
+    const { nom, id_formation, id_formateur } = req.body;
 
     //validation des données reçues
-    if (!nom) {
+    if (!nom || !id_formation || !id_formateur) {
         return res.status(400)
     }
 
     try {
         //vérification si la module existe déjà
-        let module = await Module.findOne({ where: { id: id, nom: nom }, raw: true })
+        let module = await Module.findOne({ where: { nom: nom }, raw: true })
         if (module == ! null) {
             return res.status(409).json({ message: `Le module ${nom} existe déjà !` })
         }
@@ -52,7 +52,7 @@ exports.addModule = async (req, res) => {
         module = await Module.create(req.body);
         return res.json({ message: 'Module créé', data: module })
     } catch (err) {
-        return res.status(500).json({ message: 'ouch... Database Error', error: err })
+        return res.status(500).json({ message: 'ouch... Database Error', error: err.message })
     }
 
 }

@@ -1,6 +1,7 @@
 /** import des Modules */
 const express = require('express');
 const ctrlModule = require('../controllers/c_module')
+const GuardAuth = require('../middleware/GuardAuth');
 
 
 /** récupère le router d'express */
@@ -16,7 +17,7 @@ router.use((req, res, next) => {
 /** routage de module */
 router.get('', ctrlModule.getAllModules);
 router.get('/:id', ctrlModule.getModule);
-router.put('', ctrlModule.addModule);
+router.put('', GuardAuth(['administrateur']), ctrlModule.addModule);
 
 
 module.exports = router;
