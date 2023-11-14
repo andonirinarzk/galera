@@ -30,7 +30,7 @@ const user_router = require('./routers/r_user');
 
 /** Routage principal */
 app.get('/', (req, res) => res.send(`Nous sommes en ligne, bien joué!!`))
-app.use('/auth', user_router)
+app.use('', user_router)
 app.use('/formations', formation_router)
 app.use('/formateurs', formateur_router)
 app.use('/modules', module_router)
@@ -70,7 +70,18 @@ server = app.listen(process.env.API_PORT, () => {
     console.log("API: Magnifique, ça fonctionne!!!!");
 });
 
-module.exports = server;
+//fermeture du serveur si besoin
+const closeServer = () => {
+    return new Promise((resolve) => {
+        server.close(() => {
+            console.log('Server closed.');
+            resolve();
+        });
+    });
+};
+
+module.exports = { server, closeServer };
+
 // mongoose
 //     .connect(process.env.MONGODB_URL)
 //     .then(() => {

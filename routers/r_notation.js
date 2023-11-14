@@ -16,7 +16,7 @@ router.use((req, res, next) => {
 
 /** routage de notation */
 router.get('', GuardAuth, ctrlNotation.getAllNotations);
-router.get('/:id', ctrlNotation.getNotation);
+router.get('/:id', GuardAuth, ctrlNotation.getNotation);
 router.put('', GuardAuth, ctrlNotation.addNotation);
 
 

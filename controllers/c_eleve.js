@@ -38,10 +38,10 @@ exports.getEleve = async (req, res) => {
 }
 
 exports.addEleve = async (req, res) => {
-    const { nom, prenom, email } = req.body;
+    const { nom, prenom, email, Id_formation } = req.body;
 
     //validation des données reçues
-    if (!nom || !prenom || !email) {
+    if (!nom || !prenom || !email || !Id_formation) {
         return res.status(400)
     }
 

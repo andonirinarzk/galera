@@ -2,7 +2,6 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config({ encoding: "latin1" });
 
-
 /** Connexion à la base de donnée */
 let sequelize = new Sequelize(
     process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
