@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db.config");
 const User = require('../models/m_user');
-// const Formation = require('../models/m_formation');
 
 
 exports.login = async (req, res, next) => {
@@ -27,7 +26,17 @@ exports.login = async (req, res, next) => {
             return res.status(400).json({ error: "Mot de passe incorrect" });
         }
 
-        const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE });
+        let userRole;
+
+        if (role === 'administrateur') {
+            userRole = 'administrateur';
+        } else if (role === 'formateur') {
+            userRole = 'formateur';
+        } else {
+            userRole = 'eleve';
+        }
+
+        const token = jwt.sign({ userId: user.id, role: userRole }, process.env.SECRET_KEY, { expiresIn: process.env.JWT_EXPIRE });
 
         res.status(200).json({ userId: user.id, token });
     } catch (error) {
@@ -92,7 +101,7 @@ const getUser = async (email, role) => {
         if (role === 'eleve' || role === 'formateur') {
             return await (role === 'eleve' ? db.Eleve : db.Formateur).findOne({ where: { email: email }, raw: true });
         } else if (role === 'administrateur') {
-            return await User.findOne({ where: { email: email }, raw: true });
+            return await User.findOne({ email: email });
         }
     } catch (error) {
         throw error;

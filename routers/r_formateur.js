@@ -14,9 +14,9 @@ router.use((req, res, next) => {
 })
 
 /** routage de formateur */
-router.get('/', GuardAuth, ctrlFormateur.getAllFormateurs);
-router.get('/:id', GuardAuth, ctrlFormateur.getFormateur);
-router.put('/', GuardAuth, ctrlFormateur.addFormateur);
+router.get('/', GuardAuth(['administrateur', 'eleve', 'formateur']), ctrlFormateur.getAllFormateurs);
+router.get('/:id', GuardAuth(['administrateur', 'eleve', 'formateur']), ctrlFormateur.getFormateur);
+router.put('/', GuardAuth(['administrateur']), ctrlFormateur.addFormateur);
 
 
 

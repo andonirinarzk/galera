@@ -15,9 +15,9 @@ router.use((req, res, next) => {
 })
 
 /** routage de eleve */
-router.get('', GuardAuth, ctrlEleve.getAllEleves);
-router.get('/:id', GuardAuth, ctrlEleve.getEleve);
-router.put('', GuardAuth, ctrlEleve.addEleve);
+router.get('', GuardAuth(['administrateur', 'formateur']), ctrlEleve.getAllEleves);
+router.get('/:id', GuardAuth(['administrateur', 'eleve', 'formateur']), ctrlEleve.getEleve);
+router.put('', GuardAuth(['administrateur']), ctrlEleve.addEleve);
 
 
 

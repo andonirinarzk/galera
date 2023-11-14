@@ -15,9 +15,9 @@ router.use((req, res, next) => {
 })
 
 /** routage de notation */
-router.get('', GuardAuth, ctrlNotation.getAllNotations);
-router.get('/:id', GuardAuth, ctrlNotation.getNotation);
-router.put('', GuardAuth, ctrlNotation.addNotation);
+router.get('', GuardAuth(['administrateur', 'eleve']), ctrlNotation.getAllNotations);
+router.get('/:id', GuardAuth(['administrateur', 'eleve']), ctrlNotation.getNotation);
+router.put('', GuardAuth(['eleve']), ctrlNotation.addNotation);
 
 
 module.exports = router;

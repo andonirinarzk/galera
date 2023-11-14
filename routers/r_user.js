@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const userCtrl = require("../controllers/c_user");
 const limiter = require("../middleware/GuardLimiter");
+const GuardAuth = require('../middleware/GuardAuth')
 
 /** Middleware time */
 router.use((req, res, next) => {
@@ -12,7 +13,7 @@ router.use((req, res, next) => {
 })
 
 /* Routage enregistrement User */
-router.post('/register', limiter, userCtrl.register);
+router.post('/register', GuardAuth(['administrateur']), limiter, userCtrl.register);
 
 /* Routage connexion User */
 router.post('/login', limiter, userCtrl.login);
