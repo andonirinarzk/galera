@@ -16,21 +16,17 @@ exports.getAllEleves = (req, res) => {
 exports.getEleve = async (req, res) => {
     let eleveId = parseInt(req.param.id);
 
-    //vérifier si le champ id est présent
     if (!eleveId) {
         return res.json(400).json({ message: 'Il manque un paramètre' })
     }
 
     try {
-        //récupération
         let eleve = await Eleve.findOne({ where: { id: eleveId } })
 
-        //test si résultat
         if (eleve === null) {
             return res.status(400).json({ message: `Cet eleve n'existe pas` })
         }
 
-        //renvoi de la eleve trouvée
         return res.json({ data: eleve })
     } catch (err) {
         return res.status(500).json({ message: 'aie... Database Error', error: err })
@@ -40,19 +36,16 @@ exports.getEleve = async (req, res) => {
 exports.addEleve = async (req, res) => {
     const { nom, prenom, email, id_formation } = req.body;
 
-    //validation des données reçues
     if (!nom || !prenom || !email || !id_formation) {
         return res.status(400)
     }
 
     try {
-        //vérification si la eleve existe déjà
         let eleve = await Eleve.findOne({ where: { email: email }, raw: true })
         if (eleve == ! null) {
             return res.status(409).json({ message: `L'eleve ${prenom} ${nom} existe déjà !` })
         }
 
-        //Creation
         eleve = await Eleve.create(req.body);
         return res.json({ message: 'Eleve créé', data: eleve })
     } catch (err) {

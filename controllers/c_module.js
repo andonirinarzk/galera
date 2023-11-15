@@ -12,21 +12,17 @@ exports.getAllModules = (req, res) => {
 exports.getModule = async (req, res) => {
     let moduleId = parseInt(req.param.id);
 
-    //vérifier si le champ id est présent
     if (!moduleId) {
         return res.json(400).json({ message: 'Il manque un paramètre' })
     }
 
     try {
-        //récupération
         let module = await Module.findOne({ where: { id: moduleId } })
 
-        //test si résultat
         if (module === null) {
             return res.status(400).json({ message: "Ce module n/'existe pas" })
         }
 
-        //renvoi de la module trouvée
         return res.json({ data: module })
     } catch (err) {
         return res.status(500).json({ message: 'aie... Database Error', error: err })
@@ -36,19 +32,16 @@ exports.getModule = async (req, res) => {
 exports.addModule = async (req, res) => {
     const { nom, id_formation, id_formateur } = req.body;
 
-    //validation des données reçues
     if (!nom || !id_formation || !id_formateur) {
         return res.status(400)
     }
 
     try {
-        //vérification si la module existe déjà
         let module = await Module.findOne({ where: { nom: nom }, raw: true })
         if (module == ! null) {
             return res.status(409).json({ message: `Le module ${nom} existe déjà !` })
         }
 
-        //Creation
         module = await Module.create(req.body);
         return res.json({ message: 'Module créé', data: module })
     } catch (err) {
