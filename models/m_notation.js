@@ -29,10 +29,11 @@ module.exports = (sequelize) => {
             defaultValue: 0,
             allowNull: false
         },
-        id_module: {
-            type: DataTypes.INTEGER(10),
-            allowNull: false
-        }
+        // id_module: {
+        //     type: DataTypes.INTEGER(10),
+        //     defaultValue: 0,
+        //     allowNull: false
+        // }
     })
 
     return Notation;

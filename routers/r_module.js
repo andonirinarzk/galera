@@ -1,6 +1,6 @@
 /** import des Modules */
 const express = require('express');
-const ctrlFormation = require('../controllers/c_formation')
+const ctrlModule = require('../controllers/c_module')
 const GuardAuth = require('../middleware/GuardAuth');
 
 
@@ -10,14 +10,14 @@ let router = express.Router();
 /** Middleware time */
 router.use((req, res, next) => {
     const event = new Date();
-    console.log('Formation time: ', event.toString())
+    console.log('Module time: ', event.toString())
     next()
 })
 
-/** routage de formation */
-router.get('/', ctrlFormation.getAllFormations);
-router.get('/:id', ctrlFormation.getFormation);
-router.put('/', GuardAuth(['administrateur']), ctrlFormation.addFormation);
+/** routage de module */
+router.get('', ctrlModule.getAllModules);
+router.get('/:id', ctrlModule.getModule);
+router.put('', GuardAuth(['administrateur']), ctrlModule.addModule);
 
 
 module.exports = router;
