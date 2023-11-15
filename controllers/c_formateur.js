@@ -1,6 +1,7 @@
 /** import des Modules */
 const DB = require('../db.config');
 const Formateur = DB.Formateur;
+const Notation = DB.Notation;
 /** contenu */
 exports.getAllFormateurs = (req, res) => {
     Formateur.findAll()
@@ -26,7 +27,7 @@ exports.getFormateur = async (req, res) => {
             return res.status(400).json({ message: `Ce formateur n'existe pas` })
         }
 
-        //renvoi de la formateur trouvée
+        //renvoi duformateur trouvée
         return res.json({ data: formateur })
     } catch (err) {
         return res.status(500).json({ message: 'aie... Database Error', error: err })
@@ -56,3 +57,18 @@ exports.addFormateur = async (req, res) => {
     }
 }
 
+exports.deleteFormateur = async (req, res) => {
+    const formateurId = req.params.id;
+
+    try {
+        // Supprimer le formateur
+        await Formateur.destroy({ where: { id: formateurId } });
+
+        // Supprimer toutes les notes liées à ce formateur
+        await Notation.destroy({ where: { id_formateur: formateurId } });
+
+        return res.json({ message: 'Formateur et ses notes supprimés avec succès.' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Erreur lors de la suppression', error: error.message });
+    }
+};
