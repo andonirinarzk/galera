@@ -62,7 +62,7 @@ exports.register = async (req, res, next) => {
 
         let newUser;
 
-        if (role === 'eleve' || role === 'formateur') {
+        if (role === 'eleve') {
             if (!formationId) {
                 return res.status(400).json({ error: "L'ID de formation est obligatoire pour un élève." });
             }
@@ -72,10 +72,15 @@ exports.register = async (req, res, next) => {
                 return res.status(400).json({ error: "Formation non trouvée" });
             }
 
-            newUser = await (role === 'eleve' ? db.Eleve : db.Formateur).create({
+            newUser = await db.Eleve.create({
                 email: email,
                 password: hashedPassword,
                 id_formation: formationId,
+            });
+        } else if (role === 'formateur') {
+            newUser = await db.Formateur.create({
+                email: email,
+                password: hashedPassword,
             });
         } else if (role === 'administrateur') {
             newUser = new User({

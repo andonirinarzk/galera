@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 router.get('/', GuardAuth(['administrateur', 'eleve', 'formateur']), ctrlFormateur.getAllFormateurs);
 router.get('/:id', GuardAuth(['administrateur', 'eleve', 'formateur']), ctrlFormateur.getFormateur);
 router.put('/', GuardAuth(['administrateur']), ctrlFormateur.addFormateur);
-router.delete('/', GuardAuth(['administrateur']), ctrlFormateur.deleteFormateur);
+router.delete('/:id', GuardAuth(['administrateur']), ctrlFormateur.deleteFormateur);
 
 
 module.exports = router;

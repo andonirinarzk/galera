@@ -4,19 +4,26 @@ const Notation = DB.Notation;
 
 /** contenu */
 exports.getAllNotations = (req, res) => {
-    // Si l'utilisateur est un élève, afficher seulement les notations de l'élève
-    if (req.auth.role === 'eleve') {
-        Notation.findAll({ where: { id_eleve: req.auth.userId } })
+    // Si l'utilisateur est un administrateur, afficher toutes les notations
+    if (req.auth.role === 'administrateur') {
+        Notation.findAll()
             .then(notations => res.json({ data: notations }))
             .catch(e => res.status(500).json({ message: 'arf... Database error', error: e }));
     } else {
-        // Si l'utilisateur est un formateur, afficher seulement les notations pour ce formateur
-        Notation.findAll({ where: { id_formateur: req.auth.userId } })
-            .then(notations => res.json({ data: notations }))
-            .catch(e => res.status(500).json({ message: 'arf... Database error', error: e }));
+        // Si l'utilisateur est un élève, afficher seulement les notations de l'élève
+        if (req.auth.role === 'eleve') {
+            Notation.findAll({ where: { id_eleve: req.auth.userId } })
+                .then(notations => res.json({ data: notations }))
+                .catch(e => res.status(500).json({ message: 'arf... Database error', error: e }));
+        } else {
+            // Si l'utilisateur est un formateur, afficher seulement les notations pour ce formateur
+            Notation.findAll({ where: { id_formateur: req.auth.userId } })
+                .then(notations => res.json({ data: notations }))
+                .catch(e => res.status(500).json({ message: 'arf... Database error', error: e }));
+        }
+
     }
 }
-
 exports.getNotation = async (req, res) => {
     let notationId = parseInt(req.params.id);
 
